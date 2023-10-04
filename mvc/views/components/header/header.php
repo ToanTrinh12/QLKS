@@ -16,12 +16,8 @@
             'path' => 'new',
         ),
         '/qlkhachsan/listroom' => array(
-            'type' => 'Căn hộ cho thuê',
+            'type' => 'Các phòng cho thuê',
             'path' => 'listroom',
-        ),
-        '/qlkhachsan/service' => array(
-            'type' => 'Dịch vụ',
-            'path' => 'service',
         ),
         '/qlkhachsan/contact' => array(
             'type' => 'Liên hệ',
@@ -32,12 +28,23 @@
     $dropdownlinks = array(
         '/qlkhachsan/cart' => array(
             'type' => 'Phòng đã đặt',
+            'class' => "cart",
         ),
         '/qlkhachsan/language' => array(
             'type' => 'Ngôn ngữ',
+            'class' => 'language',
         ),
-        '/qlkhachsan/logout' => array(
+        '/qlkhachsan/changePassword' => array(
+            'type' => 'Đổi mật khẩu',
+            'class' => 'changepass',
+        ),
+        '/qlkhachsan/admin' => array(
+            'type' => 'Quản lý khách sạn',
+            'class' => 'admin',
+        ),
+        '/qlkhachsan/logout/logout' => array(
             'type' => 'Đăng xuất',
+            'class' => 'logout',
         ),
     );
 
@@ -68,10 +75,14 @@
     </div>
     <div class="header__content__account">
         <div class="header__content__account__login">
-            <a href="#">Đăng Nhập</a>
+            <a href="/qlkhachsan/login">Đăng Nhập</a>
         </div>
         <div class="header__content__account__register">
-            <a href="#">Đăng Ký</a>
+            <a href="/qlkhachsan/signup">Đăng Ký</a>
+        </div>
+        <div class="header__content__account__user">
+            <i class='bx bx-user-circle'></i>
+            <span class="header__content__account__user__name">văn đạt</span>
         </div>
     </div>
     <div class="header__content__setting">
@@ -79,9 +90,51 @@
         <ul class="header__content__setting__dropdown">
             <?php 
                 foreach($dropdownlinks as $link => $type){
-                    echo "<li><a class=black href=".$link.">".$type['type']."</a></li>";
+                    echo "<li class='header__content__setting__dropdown__".$type['class']."'><a class=black href=".$link.">".$type['type']."</a></li>";
                 }
             ?>
         </ul>
     </div>
 </div>
+
+<script>
+    var hoverActiveDropdown = document.querySelector(".header__content__setting");
+    var accountShowUser = document.querySelector(".header__content__account");
+    var spanShowUserName = document.querySelector(".header__content__account__user__name");
+    var adminShowUserName = document.querySelector(".header__content__setting__dropdown__admin");
+    var userName = document.cookie;
+
+    function getCookie(cname) {
+        let name = cname + "=";
+        let ca = document.cookie.split(';');
+        for(let i=0; i<ca.length; i++) {
+            let c = ca[i];
+            let arr = c.split('=');
+            if(arr.length == 2){
+                if(String(arr[0]) == " id"){
+                    return String(arr[1]);
+                }
+            }
+        }
+        return "";
+    }
+
+    if(getCookie(userName) !== ""){
+        hoverActiveDropdown.classList.add("active");
+        accountShowUser.classList.add("active");
+        spanShowUserName.innerHTML = getCookie(userName);
+
+        fetch("http://localhost/qlkhachsan/adAccount/getLevelUsername/"+getCookie(userName))
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data){
+                if(data===1){
+                    adminShowUserName.classList.add("active");
+                }
+            })
+            .catch(err => {
+                console.log('Error :-S', err)
+            });
+    }
+</script>

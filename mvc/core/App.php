@@ -26,6 +26,7 @@
 
             $this->params = $arr ? array_values($arr) : [];
 
+            // nhận vào tên lớp và hàm nó chạy là action vs tham số truyền vào là các params
             call_user_func_array([$this->controller, $this->action],$this->params);
 
         }

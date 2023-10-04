@@ -25,7 +25,7 @@
             <h1><?php echo($itemRoom["nameRoom"]) ?></h1>
             <span class="booking__content__introduce__description"><?php echo($itemRoom["description"]) ?></span>
             <span class="booking__content__introduce__amount">Số phòng còn: 
-                <span class="booking__content__introduce__amount__content"><?php echo($itemRoom["amount"]) ?></span>
+                <span class="booking__content__introduce__amount__content"><?php echo($data["amountIdBk"]) ?></span>
                 phòng
             </span>
             <span class="booking__content__introduce__price">Giá Phòng: 
@@ -33,7 +33,7 @@
             </span>
         </div>
     </div>
-    <form action="/qlkhachsan/room/Booking/<?php echo $itemRoom["idRoom"] ?>" method="POST" class="booking__box">
+    <form action="/qlkhachsan/rooms/Booking/<?php echo $itemRoom["idRoom"] ?>" method="POST" class="booking__box">
         <div class="booking__box__content">
             <div class="booking__box__content__date">
                 <div class="booking__box__content__datestart">
@@ -47,17 +47,18 @@
             </div>
             <div class="booking__box__content__amount">
                 <span>Số phòng: </span>
-                <input id="roomAcount" type="number" name="quantity" min="1" max="12">
+                <input id="roomAcount" type="number" name="quantity" min="1" max="<?php echo($data["amountIdBk"]) ?>">
             </div>
         </div>
         <div class="booking__box__button">
-            <button id="myCheckbox">Đặt phòng</button>
+            <button id="bookingRoom">Đặt phòng</button>
         </div>
     </form>
 </div>
 
 <script>
 
+    // cho vào global
     function getCookie(cname) {
         let name = cname + "=";
         let ca = document.cookie.split(';');
@@ -65,8 +66,8 @@
             let c = ca[i];
             let arr = c.split('=');
             if(arr.length == 2){
-                if(arr[0]=="user"){
-                    return arr[1];
+                if(String(arr[0]) == " id"){
+                    return String(arr[1]);
                 }
             }
         }
@@ -83,55 +84,59 @@
     let roomAcount = document.querySelector(".booking__content__introduce__amount__content");
 
 
-    document.getElementById("myCheckbox").addEventListener("click", function(event){
-
+    // booking room
+    document.getElementById("bookingRoom").addEventListener("click", function(event){
         var userName = document.cookie;
         
         if(getCookie(userName) === ""){
             event.preventDefault();
             alert("Vui lòng đăng nhập tài khoản!");
-            window.location="http://localhost:8080/qlkhachsan";
+            window.location="http://localhost/qlkhachsan/login";
+        }else{
+            if(dateIn.value === "" || dateOut.value === "" || inputAcount.value === "" ){
+                if(dateIn.value === ""){
+                    event.preventDefault();
+                    alert("Vui lòng chọn ngày nhận phòng trước khi đặt!");
+                }
+                else if(dateOut.value === ""){
+                    event.preventDefault();
+                    alert("Vui lòng chọn ngày trả phòng trước khi đặt!");
+                }
+                else if(inputAcount.value === ""){
+                    event.preventDefault();
+                    alert("Vui lòng chọn số lượng phòng muốn đặt đặt!");
+                }
+            }
+            else{
+                let arrDateIn = cutDate(dateIn.value);
+                let monthIn = Number(arrDateIn[1])-1; // new date => month -1 nếu ko khi new nó sẽ tăng lên 1
+                let dateIn1 =new Date(arrDateIn[0],monthIn,arrDateIn[2])
+                let date = new Date(); // ngày hiện tại
+
+                let arrDateOut = cutDate(dateOut.value);
+                let monthOut = Number(arrDateOut[1])-1;
+                let dateOut1 =new Date(arrDateOut[0],monthOut,arrDateOut[2]);
+
+
+                if(dateIn1 < date){
+                    event.preventDefault();
+                    alert("Vui lòng chọn lại ngày nhận phòng trước khi đặt!");
+                }
+                else if(dateIn1 > dateOut1){
+                    event.preventDefault();
+                    alert("Vui lòng chọn lại ngày trả phòng trước khi đặt!");
+                }
+                else if(Number(roomAcount.innerText) < Number(inputAcount.value)){
+                    event.preventDefault();
+                    alert("Vui lòng chọn lại số lượng phòng!");
+                }else{
+                    if (confirm("Bạn có muốn chắc bạn muốn đặt phòng không?") == false) {
+                        event.preventDefault();
+                    }
+                }
+
+            }
         }
 
-        if(dateIn.value === "" || dateOut.value === "" || inputAcount.value === "" ){
-            if(dateIn.value === ""){
-                event.preventDefault();
-                alert("Vui lòng chọn ngày nhận phòng trước khi đặt!");
-            }
-            else if(dateOut.value === ""){
-                event.preventDefault();
-                alert("Vui lòng chọn ngày trả phòng trước khi đặt!");
-            }
-            else if(inputAcount.value === ""){
-                event.preventDefault();
-                alert("Vui lòng chọn số lượng phòng muốn đặt đặt!");
-            }
-        }
-        else{
-            let arrDateIn = cutDate(dateIn.value);
-            let monthIn = Number(arrDateIn[1])-1;
-            let dateIn1 =new Date(arrDateIn[0],monthIn,arrDateIn[2])
-            let dateIn2 = new Date()
-
-            let arrDateOut = cutDate(dateOut.value);
-            let monthOut = Number(arrDateOut[1])-1;
-            let dateOut1 =new Date(arrDateOut[0],monthOut,arrDateOut[2])
-
-
-
-            if(dateIn1 < dateIn2){
-                event.preventDefault();
-                alert("Vui lòng chọn lại ngày nhận phòng trước khi đặt!");
-            }
-            else if(dateIn1 > dateOut1){
-                event.preventDefault();
-                alert("Vui lòng chọn lại ngày trả phòng trước khi đặt!");
-            }
-            else if(Number(roomAcount.innerText) < Number(inputAcount.value)){
-                event.preventDefault();
-                alert("Vui lòng chọn lại số lượng phòng!");
-            }
-
-        }
         });
 </script>

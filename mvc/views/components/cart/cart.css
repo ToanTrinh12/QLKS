@@ -1,11 +1,12 @@
-.cart{
+    .cart{
     width: 1200px;
     margin: 0 auto;
     display: flex;
+    position: relative;
 }
 
 .cart__statistical{
-    width: 35%;
+    width: 28%;
     height: max-content;
     background-color: #fff;
     border-radius: 10px;
@@ -69,4 +70,64 @@
 
 .cart__table__body__item__delete{
     color: rgb(246, 50, 50);
+}
+
+.cart__edit{
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    background-color: #fff;
+    box-shadow: 0 0 5px 1px #000 ;
+    padding: 2rem 3rem;
+    border-radius: 10px;
+    color: #000;
+}
+
+.cart__edit.active{
+    display: block;
+}
+
+.cart__edit__close{
+    font-size: 1.5rem;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+}
+
+.cart__edit__form > h1{
+    color: blue ;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
+.cart__edit__form > div span{
+    display: inline-block;
+    width: 150px;
+}
+
+.cart__edit__form > div input{
+    border: 1px solid #000;
+    border-radius: 4px;
+}
+
+.cart__edit__content > div{
+    margin-bottom: 1rem;
+}
+
+.cart__edit__content > div > div{
+    margin-bottom: 1rem;
+}
+
+.cart__edit__button{
+    text-align: center;
+}
+
+.cart__edit__button > button{
+    padding: 8px 16px;
+    background-color: rgb(116, 116, 251);
+    color: #fff;
+    border-radius: 10px;
 }

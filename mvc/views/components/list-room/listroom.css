@@ -32,11 +32,23 @@
 }
 
 .list--room__content__layout__filter__input{
+   
+}
+
+.list--room__content__layout__filter__submit{
     flex: 1;
+    text-align: end;
+}
+
+.list--room__content__layout__filter__submit > button{
+    background-color: blue;
+    padding: 8px 22px;
+    border-radius: 10px;
+    color: #fff;
 }
 
 .list--room__content__layout__filter__input > input{
-    width: 500px;
+    width: 400px;
     padding: 4px 8px;
     border-radius: 10px;
 }
@@ -45,17 +57,20 @@
     display: flex;
 }
 
-.list--room__content__layout__filter__option > div ~ *{
+.list--room__content__layout__filter__option > div {
     margin-left: 1rem;
 } 
 
 .list--room__content__layout__rooms{
     width: 100%;
     display: grid;
-    grid-template-columns: auto auto auto;
-    gap: 30px;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 50px;
 }
 
 .list--room__content__layout__rooms > li{
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

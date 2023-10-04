@@ -89,8 +89,28 @@
    align-items: center;
 }
 
+.header__content__account.active > div {
+   display: none;
+}
+
+.header__content__account.active .header__content__account__user{
+   display: flex;
+}
+
 .header__content__account > div ~ *{
    margin-left: 1rem;
+}
+
+.header__content__account__user{
+   display: none;
+   /* display: flex; */
+   justify-content: center;
+   align-items: center;
+}
+
+.header__content__account__user > i{
+   font-size: 30px;
+   margin-right: 8px;
 }
 
 .header__content__setting{
@@ -101,7 +121,12 @@
    position: relative;
 }
 
+.header__content__setting.active::before{
+   display: block;
+}
+
 .header__content__setting::before{
+   display: none;
    position: absolute;
    content: "";
    bottom: -50%;
@@ -140,7 +165,20 @@
    display: block;
 }
 
+.header__content__setting:hover .header__content__setting__dropdown .header__content__setting__dropdown__admin{
+   display: none;
+}
+
+.header__content__setting:hover .header__content__setting__dropdown .header__content__setting__dropdown__admin.active{
+   display: block;
+}
+
+.header__content__setting.active .header__content__setting__dropdown{
+   display: block;
+}
+
 .header__content__setting__dropdown{
+   display: none;
    opacity: 0;
    position: absolute;
    top: 150%;
