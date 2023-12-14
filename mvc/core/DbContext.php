@@ -4,7 +4,7 @@
         public $servername="localhost";
         public $username="root";
         public $password="";
-        public $dbname="qlkhachsan1";
+        public $dbname="qlkhachsan";
 
         function __construct(){
             $this->con = mysqli_connect($this->servername, $this->username, $this->password);
